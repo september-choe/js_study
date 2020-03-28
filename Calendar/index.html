@@ -4,14 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyCalendar</title>
+    <style>
+        table{
+            width: 80%;
+            border: 1px solid black;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <span id="calendarTitle"></span>
-
     <table id="calendar">
-
+        <tr>
+            <td>
+                <label onclick="prevCalendar()" id="before"> < </label>
+            </td>
+            <td colspan="5">
+                <label id="calendarTitle"></label>
+            </td>
+            <td>
+                <label onclick="nextCalendar()" id="next"> > </label>
+            </td>
+        </tr>
+        <tr>
+            <td>일</td>
+            <td>월</td>
+            <td>화</td>
+            <td>수</td>
+            <td>목</td>
+            <td>금</td>
+            <td>토</td>
+        </tr>
     </table>
 
-    <script src="index.js"></script>
+    <script src="calendar.js"></script>
 </body>
 </html>
