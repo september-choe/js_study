@@ -1,9 +1,9 @@
 window.onload = function(){
     this.thisMonthCalendar();
+    loadSchedules();
 }
 
 var today = new Date();
-var date = new Date();
 
 function prevCalendar(){
     today = new Date(today.getFullYear(), today.getMonth()-1, today.getDate());
@@ -45,10 +45,14 @@ function calendarBuild(){
         cnt += 1;
     }
 
+    // 선택된 date가 속하는 year, month, day 가져오기
+    var selectedYear = today.getFullYear();
+    var selectedMonth = today.getMonth()+1;
+
     // 달력 출력
     for (let i = 1; i <= lastDate.getDate(); i++){
         cell = row.insertCell();
-        cell.innerHTML = i;
+        cell.innerHTML = "<span id='" + selectedYear + "-" + selectedMonth + "-" + i + "' onclick='addSchedule(this.id)'>" + i +"</span>";
         cnt += 1;
 
         if (cnt % 7 == 1){ // 일요일일때
@@ -56,4 +60,80 @@ function calendarBuild(){
             row = calendar.insertRow();
         }
     }
+}
+
+let scheduleObjArr = [];
+
+// 일정등록 모달열기
+function addSchedule(scheduleId){
+    var localStorageKey = scheduleId;
+    var scheduleId = scheduleId;
+    var modalWrapper = document.getElementById('modalWrapper');
+    modalWrapper.style.display = 'flex';
+
+    var add = document.getElementById('add');
+    var close = document.getElementById('close');
+
+    add.onclick = () =>{
+        var scheduleContent = document.getElementById('scheduleContent').value;
+
+        const scheduleObj = {
+            scheduleId: scheduleId,
+            scheduleContent: scheduleContent
+        };
+        
+        scheduleObjArr.push(scheduleObj);
+        console.log(scheduleObjArr);
+        saveSchedules(localStorageKey);
+
+        modalWrapper.style.display = 'none';
+        loadSchedules();
+        
+    }
+
+    close.onclick = () =>{
+        modalWrapper.style.display = 'none';
+    }
+};
+
+function saveSchedules(localStorageKey){
+    var localStorageKey = localStorageKey;
+    localStorage.setItem(localStorageKey, JSON.stringify(scheduleObjArr));
+}
+
+function loadSchedules(){
+    const loadSchedules = localStorage.getItem(localStorageKey);
+
+    // 배열 초기화
+    // scheduleObjArr = [];
+
+    if (loadSchedules !== null){ // load할 스케줄이 있다면
+        const parsedSchedules = JSON.parse(loadSchedules);
+        parsedSchedules.forEach(function(v){
+            showSchedules(v.scheduleId, v.scheduleContent);
+            // console.log(v.scheduleContent);
+        })
+    } else {
+        console.log('load error');
+    }
+}
+
+function showSchedules(scheduleId, scheduleContent){
+    var scheduleId = scheduleId;
+    let localStorageKey = scheduleId;
+    // console.log(scheduleId);
+    var scheduleContent = scheduleContent;
+    // var selectedDate = document.querySelector(`#${scheduleId}`); // querySelector에서는 숫자로 된 id 지원하지 않음
+    var selectedDate = document.getElementById(scheduleId); // ok
+    // console.log(selectedDate);
+
+    const li = document.createElement('li');
+    const span = document.createElement('span');
+
+    // parsedSchedules.forEach(function(v){
+        // if (v.scheduleId == scheduleId){
+            selectedDate.appendChild(li).appendChild(span).innerHTML = scheduleContent;
+        // }
+    // })
+    
 }
