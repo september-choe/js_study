@@ -1,5 +1,5 @@
 window.onload = function(){
-    thisMonthCalendar();
+    this.thisMonthCalendar();
 }
 
 var today = new Date();
@@ -64,66 +64,62 @@ function calendarBuild(){
 
 // 캘린더 셀 누르면 스케줄보드 보이기
 function showScheduleBoard(scheduleId){
-    var scheduleId = scheduleId;
-    document.getElementById(scheduleId).setAttribute('class','selected');
-
-    var scheduleBoard = document.getElementById('scheduleBoard');
-    scheduleBoard.style.display = 'flex';
-
-    refreshScheduleOutput();
-
-    loadSchedule(scheduleId);
-}
-
-// Add 버튼 누르면 
-$("#scheduleAdd").click(function() {
-    var scheduleInput = document.getElementById('scheduleInput');
-    var scheduleContent = scheduleInput.value;
-
-    var scheduleId = document.getElementsByClassName('selected')[0].getAttribute('id');
-    saveSchedule(scheduleId, scheduleContent);
-
-    scheduleInput.value = null;
-    document.getElementById(scheduleId).removeAttribute('class');
-});
-
-// 스케줄목록 초기화
-function refreshScheduleOutput(){
     // scheduleOutput div 초기화
     var scheduleOutput = document.getElementById('scheduleOutput');
     scheduleOutput.innerHTML = null;
+
+    // 스케줄아이디
+    var scheduleId = scheduleId;
+    console.log('셀 눌렀을때 스케줄아이디: ' + scheduleId);
+        
+    // 스케줄 입력창 보이기
+    var scheduleBoard = document.getElementById('scheduleBoard');
+    scheduleBoard.style.display = 'flex';
+
+    // Add버튼 누르면 스케줄아이디, 스케줄내용 저장
+    var scheduleAdd = document.getElementById('scheduleAdd');
+    scheduleAdd.addEventListener('click', function(e){
+        e.preventDefault();
+        console.log('addEventListener 스케줄아이디: ' + scheduleId);
+
+        // 스케줄 입력내용
+        var scheduleInput = document.getElementById('scheduleInput');
+        var scheduleContent = scheduleInput.value;
+
+        saveSchedule(scheduleId, scheduleContent);
+
+        // 그리고 input 초기화
+        scheduleInput.value = '';
+    });
+
+    // 기존에 저장된 스케줄내용 불러오기
+    loadSchedule(scheduleId);
 }
 
-// 스케줄목록 가져오기
-function loadSchedule(scheduleId){
-    var storedScheduleObjArr = JSON.parse(localStorage.getItem(scheduleId));
-
-    if (storedScheduleObjArr != null){
-        storedScheduleObjArr.forEach(v => {
-            showSchedules(v.scheduleContent);
-        });
-    }
-}
-
-// 로컬스토리지에 스케줄아이디, 스케줄내용 저장
+// 스케줄아이디, 스케줄내용 저장하기
 function saveSchedule(scheduleId, scheduleContent){
+    console.log('save할때 스케줄아이디: ' + scheduleId);
+    console.log(scheduleContent);
+    var scheduleObjArr = [];
     
     var scheduleObj = {
         scheduleContent: scheduleContent
     }
+    scheduleObjArr.push(scheduleObj);
 
-    // 로컬스토리지에 해당 키가 이미 존재한다면
-    if (localStorage.getItem(scheduleId) != null){
-        console.log(JSON.stringify(localStorage[scheduleContent]));
-        // var tmp = JSON.stringify(localStorage.getItem(scheduleId));
-        // console.log(tmp); // "[{\"scheduleContent\":\"a,b,c\"}]"
-    } else {
-        var scheduleObjArr = [];
-        scheduleObjArr.push(scheduleObj);
-        localStorage.setItem(scheduleId, JSON.stringify(scheduleObjArr));
-        scheduleObjArr = null;
+    localStorage.setItem(scheduleId, JSON.stringify(scheduleObjArr));
+    scheduleObjArr = null;
+}
+
+// local storage에 저장된 스케줄 불러오기
+function loadSchedule(scheduleId){
+    var storedScheduleObjArr = JSON.parse(localStorage.getItem(scheduleId));
+
+    if (storedScheduleObjArr !== null){
+        storedScheduleObjArr.forEach(v => {
+            showSchedules(v.scheduleContent);
+        });
     }
-
 }
 
 // scheduleOutput div 안에 li 달아서 화면에 스케줄 보이기
