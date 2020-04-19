@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            width: 80%;
+            border: 1px solid grey;
+        }
+        img {
+            width: 100%;
+        }
+
+    </style>
+</head>
+<body>
+    <h2>자바스크립트로 API를 호출하는 방법</h2>
+        <div>
+            <h3>
+                1. XMLHttpRequest
+            </h3>
+                <p>
+                    ES6 전에는 XMLHttpRequest를 사용해서만 HTTP request를 생성할 수 있었다. 이것은 웹브라우저 내장 객체로, 이를 통해 자바스크립트에서 HTTP request를 생성할 수 있다.
+                </p>
+                <p>
+                    기본 반환값은 string format이며, 우리는 이를 JSON으로 파싱해야 한다.
+                </p>
+                <p> 
+                    ES6에서 fetch라는 개념이 생기면서 XMLHttpRequest는 deprecated되었다. 구식 웹브라우저를 사용할 때나 polyfills(JavaScript library)를 사용하고싶지 않을 때 XMLHttpRequest를 쓴다.
+                </p>
+                <img src="https://miro.medium.com/max/1400/1*8krl_JNHjyBC1cG4aUgcxw.png"/>
+
+            <h3>
+                2. fetch
+            </h3>
+                <p>
+                    XMLHttpRequest와 비슷한 방식으로 HTTP request를 만들 수 있는 방법이다. 하지만 promises를 사용하기때문에 더 직관적인 인터페이스를 갖는다. 구식 웹브라우저에서는 작동하지 않는다.
+                    fetch를 사용하여 API를 불러오는 방법에는 2가지가 있다.
+                </p>
+                <p>
+                    2-1. fetch.then
+                </p>
+                <img src="https://miro.medium.com/max/1400/1*Zp7OjG_itJNA3VoXL5f5sQ.png"/>
+                <p>
+                    2-2. async and await
+                </p>
+                <img src="https://miro.medium.com/max/1400/1*v6H8DMYtqFw6QHWB8V9QlQ.png"/>
+
+            <h3>
+                3. Axios
+            </h3>
+                <p>
+                    Axios는 HTTP request를 만드는데 사용하는 오픈소스라이브러리이다. 웹브라우저와 Node.js에서 작동하며, 플레인 자바스크립트, React, Vue.js, Angular에서 사용할 수 있는 promised-based HTTP 클라이언트이다. Axios 사용을 위해서는 npm이나 yarn같은 패키지매니저를 설치해야 한다. 가장 손쉬운 방법은 외부 CDN를 이용하는 것이다.
+                </p>
+                <p>
+                    Axios의 장점은 자동변환, JSON format데이터 반환, 더 나은 에러 핸들링, 높은 웹브라우저 호환성이다.
+                </p>
+                <img src="https://miro.medium.com/max/1400/1*NEmOfTd55kd-hBd9YzU5WA.png"/>
+            <h3>
+                4. jQeury
+            </h3>
+                <p>
+                    제이쿼리는 비동기 방식으로 HTTP request를 처리하는 다양한 메소드를 갖고있다. 제이쿼리를 이용하여 HTTP request를 생성하기 위해서는 $.ajax() 메소드를 사용한다.
+                </p>
+                <img src="https://miro.medium.com/max/1400/1*2Neew2_eLptnS6N9E3PjrA.png"/>
+        </div>
+
+</body>
+</html>
